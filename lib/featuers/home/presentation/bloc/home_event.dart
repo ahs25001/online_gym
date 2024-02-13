@@ -4,7 +4,9 @@ part of 'home_bloc.dart';
 abstract class HomeEvent {}
 
 class NextStepEvent extends HomeEvent {
+  int? numOfAppType;
 
+  NextStepEvent({this.numOfAppType});
 }
 
 class ChangeHeightEvent extends HomeEvent {

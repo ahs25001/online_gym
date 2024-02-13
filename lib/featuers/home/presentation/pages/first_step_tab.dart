@@ -63,27 +63,18 @@ class FStepTab extends StatelessWidget {
               SizedBox(
                 height: 10.h,
               ),
-              InkWell(
-                child: Container(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 14.h, horizontal: 14.w),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(18.r)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        AppStrings.selectYouGender,
-                        style: AppStyles.descriptionStyle,
-                      ),
-                      const Icon(
-                        Icons.keyboard_arrow_down,
-                      )
-                    ],
-                  ),
-                ),
-              ),
+              DropdownMenu(
+                controller: HomeBloc.get(context).genderController,
+                  hintText: AppStrings.selectYouGender,
+                  width: MediaQuery.of(context).size.width * .85,
+                  inputDecorationTheme: InputDecorationTheme(
+                    contentPadding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 14.w),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(18.r))),
+                  dropdownMenuEntries: const [
+                    DropdownMenuEntry<String>(value: "male", label: "male"),
+                    DropdownMenuEntry<String>(value: "female", label: "female"),
+                  ]),
               SizedBox(
                 height: 20.h,
               ),
@@ -103,10 +94,10 @@ class FStepTab extends StatelessWidget {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(18.r),
-                            borderSide: BorderSide(color: Colors.blue)),
+                            borderSide: const BorderSide(color: Colors.blue)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(18.r),
-                            borderSide: BorderSide(color: Colors.blue)),
+                            borderSide: const BorderSide(color: Colors.blue)),
                       ),
                       controller: HomeBloc.get(context).weightController,
                     ),

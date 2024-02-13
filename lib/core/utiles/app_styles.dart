@@ -14,6 +14,7 @@ class AppStyles {
   static TextStyle fieldTitle = GoogleFonts.poppins(
       color: Colors.black, fontWeight: FontWeight.w500, fontSize: 16.sp);
   static ButtonStyle primaryButtonStyle = ElevatedButton.styleFrom(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.r)),
     backgroundColor: Colors.blue,
   );
 }

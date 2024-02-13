@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_gym/core/utiles/AppStrings.dart';
 import 'package:online_gym/core/utiles/app_icons.dart';
 import 'package:online_gym/core/utiles/app_styles.dart';
+import 'package:online_gym/featuers/home/presentation/pages/last_step.dart';
 import 'package:online_gym/featuers/home/presentation/pages/second_step_tab.dart';
 import 'package:online_gym/featuers/home/presentation/pages/third_step_tab.dart';
 import 'package:online_gym/featuers/home/presentation/widgets/check_slider.dart';
@@ -17,11 +18,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> steps = [
-      const FStepTab(),
-      const SStepTab(),
-      const TStepTab(),
-    ];
     return BlocProvider(
       create: (context) => HomeBloc(),
       child: Scaffold(
@@ -63,6 +59,12 @@ class HomeScreen extends StatelessWidget {
                 }
               },
               builder: (context, state) {
+                List<Widget> steps = [
+                  const FStepTab(),
+                  const SStepTab(),
+                  const TStepTab(),
+                  LStep(state.numOfAppType ?? 1),
+                ];
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   // mainAxisAlignment: MainAxisAlignment.center,
@@ -83,41 +85,53 @@ class HomeScreen extends StatelessWidget {
                     SizedBox(
                       height: 26.h,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        IntroCustemIcons(
-                            title: AppStrings.information,
-                            icon: Icons.person_2_outlined,
-                            isSelected: state.currentStep == 0),
-                        IntroCustemIcons(
-                            title: AppStrings.yourHeight,
-                            icon: Icons.height,
-                            isSelected: state.currentStep == 1),
-                        IntroCustemIcons(
-                            title: AppStrings.applicationType,
-                            imageIcon: AssetImage(
-                              AppIcons.applicationIcon,
-                            ),
-                            isSelected: state.currentStep == 2)
-                      ],
+                    Visibility(
+                      visible: (state.currentStep ?? 0) < 3,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          IntroCustemIcons(
+                              title: AppStrings.information,
+                              icon: Icons.person_2_outlined,
+                              isSelected: state.currentStep == 0),
+                          IntroCustemIcons(
+                              title: AppStrings.yourHeight,
+                              icon: Icons.height,
+                              isSelected: state.currentStep == 1),
+                          IntroCustemIcons(
+                              title: AppStrings.applicationType,
+                              imageIcon: AssetImage(
+                                AppIcons.applicationIcon,
+                              ),
+                              isSelected: state.currentStep == 2)
+                        ],
+                      ),
                     ),
                     SizedBox(
                       height: 25.h,
                     ),
-                    CheckSlider(state.currentStep??0),
-                    steps[state.currentStep??0],
+                    Visibility(
+                        visible: (state.currentStep ?? 0) < 3,
+                        child: CheckSlider(state.currentStep ?? 0)),
+                    steps[state.currentStep ?? 0],
                     const Spacer(),
-                    ElevatedButton(
-                        onPressed: () {
-                          HomeBloc.get(context).add(NextStepEvent());
-                        },
-                        style: AppStyles.primaryButtonStyle,
-                        child: Text(
-                          AppStrings.next,
-                          style: AppStyles.fieldTitle
-                              .copyWith(color: Colors.white),
-                        ))
+                    Visibility(
+                      visible: (state.currentStep ?? 0) != 2,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 20.0.w, vertical: 20.h),
+                        child: ElevatedButton(
+                            onPressed: () {
+                              HomeBloc.get(context).add(NextStepEvent());
+                            },
+                            style: AppStyles.primaryButtonStyle,
+                            child: Text(
+                              AppStrings.next,
+                              style: AppStyles.fieldTitle
+                                  .copyWith(color: Colors.white),
+                            )),
+                      ),
+                    )
                   ],
                 );
               },
