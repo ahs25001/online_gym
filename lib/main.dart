@@ -4,6 +4,7 @@ import 'package:online_gym/config/routs/app_routs.dart';
 
 void main() {
   runApp(const MyApp());
+
 }
 
 class MyApp extends StatelessWidget {

@@ -27,6 +27,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             birthDate: event.birthDate));
       } else if (event is ChangeHeightEvent) {
         emit(state.copyWith(height: event.height));
+      } else if (event is SetWeightEvent) {
+        emit(state.copyWith(
+            weight:
+                double.parse((event.weight.isNotEmpty) ? event.weight : "0")));
+      } else if (event is ChooseGenderEvent) {
+        emit(state.copyWith(gender: event.gender));
+      } else if (event is SelectGoalEvent) {
+        emit(state.copyWith(selectedGoal: event.numOfGoal));
+      } else if (event is FinishStepsEvent) {
+        emit(state.copyWith(homeScreenStatus: HomeScreenStatus.finisSteps));
       }
     });
   }

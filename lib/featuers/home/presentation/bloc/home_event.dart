@@ -22,3 +22,23 @@ class SetBirthDateEvent extends HomeEvent {
 
   SetBirthDateEvent(this.birthDate);
 }
+
+class ChooseGenderEvent extends HomeEvent {
+  String gender;
+
+  ChooseGenderEvent(this.gender);
+}
+
+class SetWeightEvent extends HomeEvent {
+  String weight;
+
+  SetWeightEvent(this.weight);
+}
+
+class SelectGoalEvent extends HomeEvent {
+  int numOfGoal;
+
+  SelectGoalEvent(this.numOfGoal);
+}
+
+class FinishStepsEvent extends HomeEvent {}

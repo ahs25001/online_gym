@@ -39,11 +39,7 @@ class FStepTab extends StatelessWidget {
                       Text(
                         (state.birthDate == null)
                             ? AppStrings.enterYourDateOfBirth
-                            : HomeBloc.get(context)
-                                .state
-                                .birthDate
-                                .toString()
-                                .substring(0, 10),
+                            : state.birthDate.toString().substring(0, 10),
                         style: AppStyles.descriptionStyle,
                       ),
                       const Icon(
@@ -64,11 +60,14 @@ class FStepTab extends StatelessWidget {
                 height: 10.h,
               ),
               DropdownMenu(
-                controller: HomeBloc.get(context).genderController,
+                  onSelected: (value) =>
+                      HomeBloc.get(context).add(ChooseGenderEvent(value ?? "")),
+                  controller: HomeBloc.get(context).genderController,
                   hintText: AppStrings.selectYouGender,
                   width: MediaQuery.of(context).size.width * .85,
                   inputDecorationTheme: InputDecorationTheme(
-                    contentPadding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 14.w),
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 14.h, horizontal: 14.w),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(18.r))),
                   dropdownMenuEntries: const [
@@ -89,7 +88,21 @@ class FStepTab extends StatelessWidget {
                 children: [
                   Expanded(
                     child: TextFormField(
+                      onFieldSubmitted: (value) {
+                        bool readyToNextStep = ((state.currentStep == 0||state.currentStep ==null )&&
+                            state.birthDate != null &&
+                            (state.gender ?? "").isNotEmpty &&
+                            state.weight != null);
+                        print("***********$readyToNextStep*******************");
+                        print("state.homeScreenStatus ${state.homeScreenStatus}");
+                        print("state.currentStep ${state.currentStep}");
+                        print("state.birthDate ${state.birthDate}");
+                        print("state.gender${state.gender}");
+                        print("state.weight ${state.weight}");
+                      },
                       keyboardType: TextInputType.number,
+                      onChanged: (value) =>
+                          HomeBloc.get(context).add(SetWeightEvent(value)),
                       cursorColor: Colors.blue,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(

@@ -15,9 +15,9 @@ import 'first_step_tab.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
+    // bool readyToNextStep =false;
     return BlocProvider(
       create: (context) => HomeBloc(),
       child: Scaffold(
@@ -59,6 +59,19 @@ class HomeScreen extends StatelessWidget {
                 }
               },
               builder: (context, state) {
+                bool readyToNextStep = ((state.currentStep == 0 ||
+                            state.currentStep == null ||
+                            state.currentStep == 1) &&
+                        state.birthDate != null &&
+                        (state.gender ?? "").isNotEmpty &&
+                        state.weight != null &&
+                        state.weight != 0) ||
+                    (state.currentStep == 3 && state.selectedGoal != null);
+                print("***********$readyToNextStep*******************");
+                print("state.currentStep ${state.currentStep}");
+                print("state.birthDate ${state.birthDate}");
+                print("state.gender${state.gender}");
+                print("state.weight ${state.weight}");
                 List<Widget> steps = [
                   const FStepTab(),
                   const SStepTab(),
@@ -121,15 +134,24 @@ class HomeScreen extends StatelessWidget {
                         padding: EdgeInsets.symmetric(
                             horizontal: 20.0.w, vertical: 20.h),
                         child: ElevatedButton(
-                            onPressed: () {
+                          onPressed: (readyToNextStep)
+                              ? () {
+                            if((state.currentStep??0) < 3){
                               HomeBloc.get(context).add(NextStepEvent());
-                            },
-                            style: AppStyles.primaryButtonStyle,
-                            child: Text(
-                              AppStrings.next,
-                              style: AppStyles.fieldTitle
-                                  .copyWith(color: Colors.white),
-                            )),
+                            }
+                            else{
+                              HomeBloc.get(context).add(FinishStepsEvent());
+                            }
+
+                                }
+                              : null,
+                          style: AppStyles.primaryButtonStyle,
+                          child: Text(
+                            AppStrings.next,
+                            style: AppStyles.fieldTitle
+                                .copyWith(color: Colors.white),
+                          ),
+                        ),
                       ),
                     )
                   ],
