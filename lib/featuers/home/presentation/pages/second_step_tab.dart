@@ -11,36 +11,34 @@ class SStepTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 20.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 20.h,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 20.h),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 20.h,
+          ),
+          Text(
+            AppStrings.whatIsYourHeight,
+            style: AppStyles.fieldTitle,
+          ),
+          SizedBox(
+            height: 20.h,
+          ),
+          Expanded(
+            child: Center(
+              child: WheelChooser.integer(
+                  selectTextStyle: AppStyles.selectedSubTitleStyle
+                      .copyWith(color: Colors.blue),
+                  onValueChanged: (p0) {
+                    HomeBloc.get(context).add(ChangeHeightEvent(p0));
+                  },
+                  maxValue: 250,
+                  minValue: 100),
             ),
-            Text(
-              AppStrings.whatIsYourHeight,
-              style: AppStyles.fieldTitle,
-            ),
-            SizedBox(
-              height: 20.h,
-            ),
-            Expanded(
-              child: Center(
-                child: WheelChooser.integer(
-                    selectTextStyle: AppStyles.selectedSubTitleStyle
-                        .copyWith(color: Colors.blue),
-                    onValueChanged: (p0) {
-                      HomeBloc.get(context).add(ChangeHeightEvent(p0));
-                    },
-                    maxValue: 250,
-                    minValue: 100),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

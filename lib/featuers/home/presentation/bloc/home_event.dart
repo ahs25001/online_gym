@@ -3,6 +3,8 @@ part of 'home_bloc.dart';
 @immutable
 abstract class HomeEvent {}
 
+class Login extends HomeEvent {}
+
 class NextStepEvent extends HomeEvent {
   int? numOfAppType;
 
